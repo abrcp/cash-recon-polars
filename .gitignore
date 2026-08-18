@@ -1,0 +1,9 @@
+data/
+data_big/
+out/
+out_big/
+runs/
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
