@@ -13,7 +13,7 @@ someone can clone and run straight away.
 
 ---
 
-## Why Polars, in memory (the short answer)
+## Why Polars, in memory
 
 - **True in-memory, columnar.** Polars stores data contiguously in RAM as Apache
   Arrow. No PostgreSQL/SQLite/DuckDB server is started or required.
@@ -106,7 +106,7 @@ Your own numbers will be written to `out/benchmark.json` when you run
 
 ---
 
-## Scenarios in the synthetic data (ground truth)
+## Scenarios in the synthetic data
 
 The generator injects, relative to the number of `--rows` (clean pairs):
 `CLEAN` (the bulk), `ROUNDING` (amount off by 0.01 → near-miss), `TIMING`
@@ -115,8 +115,6 @@ The generator injects, relative to the number of `--rows` (clean pairs):
 asserts the reconciliation output ties **exactly** to these injected counts.
 
 ---
-
-## Honest notes (worth saying in the interview)
 
 - **This is a demo, not a production platform.** A real deployment would add:
   schema validation on ingest, a persisted audit trail, configurable
@@ -144,12 +142,3 @@ asserts the reconciliation output ties **exactly** to these injected counts.
 | `requirements.txt` | Dependencies |
 
 ---
-
-## What was wrong with the "quick" version (for reference)
-
-The common first-draft script (`internal.join(external, on=["value_date","amount"],
-how="full")`) has four issues this repo fixes: (1) no `coalesce`, so one-sided rows
-lose their key values; (2) amount+date-only key → Cartesian explosion on real
-volumes; (3) rounding advised but not applied, and the `<= tol` test then fails on
-float representation error; (4) no duplicate handling, tolerance pass, or runtime
-capture. The approach was right; the implementation needed hardening.
