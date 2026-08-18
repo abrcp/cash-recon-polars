@@ -93,10 +93,10 @@ def reconcile(internal_path, external_path, out_dir,
 
     # ---- 5. Collect (this is where the work actually happens) --------------
     t1 = time.perf_counter()
-    result = matched.collect(engine="streaming")      # streaming lets Polars spill if RAM is tight
+    result = matched.collect()      # streaming lets Polars spill if RAM is tight
     timings["match_collect_s"] = round(time.perf_counter() - t1, 3)
 
-    dup = dup_lf.collect(engine="streaming")
+    dup = dup_lf.collect()
     n_dup_groups = dup.height
 
     # ---- 6. PASS 2 (optional): tolerance / near-miss on the residual -------
